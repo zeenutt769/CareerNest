@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useToast } from './Toast';
 
@@ -6,29 +6,40 @@ export default function Header() {
     const navigate = useNavigate();
     const location = useLocation();
     const toast = useToast();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const navItems = [
+        { name: 'My Dashboard', path: '/dashboard' },
         { name: 'Find Job', path: '/jobs' },
         { name: 'Resume Check', path: '/ats' },
-        { name: 'My Dashboard', path: '/dashboard' },
         { name: 'FAQ', path: '/faq' },
     ];
 
     return (
         <header className="d-header">
             <div className="d-logo" onClick={() => navigate('/')}>Career<span>Nest</span></div>
-            <nav className="d-nav">
+            <button
+                className="mobile-nav-toggle"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                style={{ fontSize: 24, padding: '0 10px' }}
+            >
+                {isMobileMenuOpen ? '✕' : '☰'}
+            </button>
+            <nav className={`d-nav ${isMobileMenuOpen ? 'mobile-active' : ''}`}>
                 {navItems.map((item) => (
                     <a
                         key={item.name}
                         className={location.pathname === item.path ? 'active' : ''}
-                        onClick={() => navigate(item.path)}
+                        onClick={() => {
+                            navigate(item.path);
+                            setIsMobileMenuOpen(false);
+                        }}
                     >
                         {item.name}
                     </a>
                 ))}
             </nav>
-            <div className="d-right">
+            <div className="d-right" style={{ display: isMobileMenuOpen ? 'none' : 'flex' }}>
                 <div className="d-location">
                     <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
                     <span>Mumbai, IN</span>

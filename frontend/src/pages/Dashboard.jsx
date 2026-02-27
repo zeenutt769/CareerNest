@@ -5,6 +5,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { ovMatches, ovTracker, ovATS, ovDeadlines, jobs } from '../data/jobs';
 import { useToast } from '../components/Toast';
 import JobModal from '../components/JobModal';
+import CountUp from '../components/CountUp';
 
 const chartData = [
     { name: 'Mon', applications: 2 },
@@ -26,13 +27,18 @@ export default function OverviewDashboard() {
         if (job) setSelectedJob(job);
     };
 
-    
+
 
     return (
         <>
             <div className="ov-body">
                 {/* LEFT SIDEBAR NAV */}
-                <aside className="ov-leftnav">
+                <motion.aside
+                    className="ov-leftnav glass-panel"
+                    initial={{ x: -250, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+                >
                     <div className="ov-leftnav-avatar">RS</div>
                     <div className="ov-leftnav-name">Rahul Sharma</div>
                     <div className="ov-leftnav-sub">B.Tech CSE • 2025</div>
@@ -69,7 +75,7 @@ export default function OverviewDashboard() {
                         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" /></svg>
                         Settings
                     </button>
-                </aside>
+                </motion.aside>
 
                 {/* CENTER */}
                 <main className="ov-center">
@@ -84,15 +90,19 @@ export default function OverviewDashboard() {
                             { cls: 'c1', delta: '+3 new', deltaCls: 'delta-up', iconBg: 'rgba(78,205,196,0.1)', iconBorder: 'rgba(78,205,196,0.25)', stroke: '#4ecdc4', icon: <><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></>, num: '47', numColor: '#4ecdc4', label: 'Total Matches', sub: 'Based on your skills' },
                             { cls: 'c2', delta: '+2 today', deltaCls: 'delta-up', iconBg: 'rgba(232,212,139,0.1)', iconBorder: 'rgba(232,212,139,0.25)', stroke: '#e8d48b', icon: <><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14,2 14,8 20,8" /><line x1="16" y1="13" x2="8" y2="13" /></>, num: '12', numColor: 'var(--gold)', label: 'Jobs Applied', sub: 'Last 30 days' },
                             { cls: 'c3', delta: '2 interviews', deltaCls: 'delta-up', iconBg: 'rgba(162,155,254,0.1)', iconBorder: 'rgba(162,155,254,0.25)', stroke: '#a29bfe', icon: <><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></>, num: '5', numColor: '#a29bfe', label: 'Active Applications', sub: 'Awaiting response' },
-                            { cls: 'c4', delta: '↑ 6pts', deltaCls: 'delta-up', iconBg: 'rgba(255,107,157,0.1)', iconBorder: 'rgba(255,107,157,0.25)', stroke: '#ff6b9d', icon: <><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></>, num: '78%', numColor: '#ff6b9d', label: 'Avg ATS Score', sub: 'Across 3 resumes' },
+                            { cls: 'c4', delta: '↑ 6pts', deltaCls: 'delta-up', iconBg: 'rgba(255,107,157,0.1)', iconBorder: 'rgba(255,107,157,0.25)', stroke: '#ff6b9d', icon: <><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></>, num: '78', suffix: '%', numColor: '#ff6b9d', label: 'Avg ATS Score', sub: 'Across 3 resumes' },
                         ].map((s, i) => (
-                            <motion.div key={i} className={`ov-sc ${s.cls}`}
-                                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+                            <motion.div key={i} className={`ov-sc glass-card ${s.cls}`}
+                                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                transition={{ delay: i * 0.1, type: 'spring', stiffness: 120, damping: 14 }}>
                                 <span className={`ov-sc-delta ${s.deltaCls}`}>{s.delta}</span>
                                 <div className="ov-sc-icon" style={{ background: s.iconBg, borderColor: s.iconBorder }}>
                                     <svg viewBox="0 0 24 24" stroke={s.stroke}>{s.icon}</svg>
                                 </div>
-                                <div className="ov-sc-num" style={{ color: s.numColor }}>{s.num}</div>
+                                <div className="ov-sc-num" style={{ color: s.numColor }}>
+                                    <CountUp end={s.num} suffix={s.suffix || ''} />
+                                </div>
                                 <div className="ov-sc-label">{s.label}</div>
                                 <div className="ov-sc-sub">{s.sub}</div>
                             </motion.div>
@@ -106,8 +116,12 @@ export default function OverviewDashboard() {
                     </div>
                     <div className="ov-match-list">
                         {ovMatches.map((m, idx) => (
-                            <motion.div key={idx} className="ov-mc" onClick={() => openJob(m.id)}
-                                initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.08 }}>
+                            <motion.div key={idx} className="ov-mc glass-card" onClick={() => openJob(m.id)}
+                                initial={{ opacity: 0, x: -20, scale: 0.95 }}
+                                animate={{ opacity: 1, x: 0, scale: 1 }}
+                                transition={{ delay: idx * 0.1, type: 'spring', stiffness: 100, damping: 15 }}
+                                style={{ padding: '16px', borderRadius: '16px', marginBottom: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '16px' }}
+                                whileHover={{ scale: 1.02, x: 5 }}>
                                 <div className="ov-mc-logo" style={{ borderColor: `${m.col}33`, color: m.col }}>{m.initials}</div>
                                 <div className="ov-mc-info">
                                     <div className="ov-mc-title">{m.title}</div>
@@ -127,9 +141,14 @@ export default function OverviewDashboard() {
                 </main>
 
                 {/* RIGHT PANEL */}
-                <aside className="ov-rightnav">
+                <motion.aside
+                    className="ov-rightnav glass-panel"
+                    initial={{ x: 250, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.2, type: 'spring', stiffness: 100, damping: 20 }}
+                >
                     {/* Deadlines */}
-                    <div className="ov-panel-card">
+                    <div className="ov-panel-card glass-card">
                         <div className="ov-panel-title">
                             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><polyline points="12,6 12,12 16,14" /></svg>
                             Deadlines & Reminders
@@ -147,7 +166,7 @@ export default function OverviewDashboard() {
                     </div>
 
                     {/* Skill Gap */}
-                    <div className="ov-panel-card">
+                    <div className="ov-panel-card glass-card">
                         <div className="ov-panel-title">
                             <svg viewBox="0 0 24 24"><line x1="9" y1="18" x2="15" y2="18" /><line x1="10" y1="22" x2="14" y2="22" /><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0018 8 6 6 0 006 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 018.91 14" /></svg>
                             Skill Gap Analysis
@@ -180,7 +199,7 @@ export default function OverviewDashboard() {
                     </div>
 
                     {/* ATS Scores */}
-                    <div className="ov-panel-card">
+                    <div className="ov-panel-card glass-card">
                         <div className="ov-panel-title">
                             <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>
                             Resume ATS Scores
@@ -199,7 +218,7 @@ export default function OverviewDashboard() {
                     </div>
 
                     {/* Quick Actions */}
-                    <div className="ov-panel-card">
+                    <div className="ov-panel-card glass-card">
                         <div className="ov-panel-title">
                             <svg viewBox="0 0 24 24"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2" /></svg>
                             Quick Actions
@@ -223,7 +242,7 @@ export default function OverviewDashboard() {
                             <label className="ov-toggle"><input type="checkbox" defaultChecked /><span className="ov-toggle-slider"></span></label>
                         </div>
                     </div>
-                </aside>
+                </motion.aside>
             </div>
 
             {selectedJob && <JobModal job={selectedJob} onClose={() => setSelectedJob(null)} />}

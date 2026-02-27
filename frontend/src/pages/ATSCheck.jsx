@@ -50,8 +50,16 @@ export default function ATSCheck() {
                 <p className="page-sub">Upload your resume and paste a job description to get an instant ATS match score with actionable feedback.</p>
                 <div style={{ maxWidth: 800 }}>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <label className="ats-upload" htmlFor="resumeUpload">
-                            <svg className="ats-upload-icon" viewBox="0 0 56 56" fill="none" style={{ width: 56, height: 56, marginBottom: 16, opacity: 0.7 }}>
+                        <motion.label
+                            className="ats-upload glass-card"
+                            htmlFor="resumeUpload"
+                            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+                            style={{ padding: '40px', borderRadius: '24px', textAlign: 'center', cursor: 'pointer', display: 'block', marginBottom: '24px' }}
+                            whileHover={{ scale: 1.02, backgroundColor: 'rgba(30,30,30,0.7)' }}
+                        >
+                            <svg className="ats-upload-icon" viewBox="0 0 56 56" fill="none" style={{ width: 56, height: 56, marginBottom: 16, opacity: 0.7, margin: '0 auto' }}>
                                 <rect x="8" y="4" width="32" height="42" rx="4" stroke="#e8d48b" strokeWidth="2" />
                                 <path d="M28 4v12h12" stroke="#e8d48b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 <path d="M16 28h16M16 34h10" stroke="#e8d48b" strokeWidth="2" strokeLinecap="round" />
@@ -64,25 +72,31 @@ export default function ATSCheck() {
                                 {...register("resume")}
                                 onChange={handleFile}
                                 style={{ display: 'none' }} />
-                        </label>
+                        </motion.label>
                         <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.35)', letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 10 }}>
                             Paste Job Description
                         </p>
-                        <textarea
-                            className="ats-jd"
+                        <motion.textarea
+                            className="ats-jd glass-card"
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1, type: 'spring', stiffness: 100, damping: 15 }}
                             placeholder="Paste the full job description here — include requirements, responsibilities, and skills."
                             {...register("jd", { required: true })}
+                            style={{ width: '100%', minHeight: '150px', padding: '20px', borderRadius: '16px', color: 'var(--white)' }}
                         />
                         {errors.jd && <span style={{ color: '#f87171', fontSize: 13 }}>Please paste a job description!</span>}
                         <br />
-                        <button type="submit" className="gold-btn">🔍 Analyze My Resume</button>
+                        <button type="submit" className="btn-gold" style={{ marginTop: '16px', padding: '16px 32px' }}>🔍 Analyze My Resume</button>
                     </form>
 
                     {score && (
-                        <motion.div className="ats-result show"
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}>
-                            <div className="ats-score-row">
+                        <motion.div className="ats-result show glass-panel"
+                            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ type: 'spring', stiffness: 120, damping: 14 }}
+                            style={{ marginTop: '40px', padding: '32px', borderRadius: '24px' }}>
+                            <div className="ats-score-row" style={{ display: 'flex', alignItems: 'center', gap: '32px', marginBottom: '32px' }}>
                                 <div className="score-circle" style={{ background: `conic-gradient(${scoreData.color} 0deg ${score * 3.6}deg, rgba(255,255,255,0.07) ${score * 3.6}deg)` }}>
                                     <div className="score-inner">
                                         <div className="score-num">{score}</div>

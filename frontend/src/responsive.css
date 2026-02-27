@@ -1,0 +1,341 @@
+/* RESPONSIVE STYLES */
+
+.mobile-nav-toggle {
+    display: none;
+}
+
+/* Tablets and small desktops */
+@media (max-width: 1024px) {
+
+    .feat-grid,
+    .how-steps,
+    .jobs-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .inner-main {
+        padding: 30px;
+    }
+
+    .d-header {
+        padding: 0 24px;
+    }
+}
+
+/* Phones */
+@media (max-width: 768px) {
+
+    /* Header */
+    .d-header {
+        padding: 0 16px;
+        height: 60px;
+    }
+
+    .d-header .mobile-nav-toggle {
+        display: block !important;
+        background: transparent;
+        border: none;
+        color: var(--white);
+        cursor: pointer;
+        z-index: 201;
+    }
+
+    .d-nav {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--black);
+        flex-direction: column;
+        padding: 40px 20px;
+        gap: 15px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        z-index: 199;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .d-nav.mobile-active {
+        transform: translateX(0);
+    }
+
+    .d-nav a {
+        font-size: 18px;
+        width: 100%;
+        text-align: center;
+        padding: 15px;
+    }
+
+    /* Landing */
+    .hero-h1 {
+        font-size: 38px;
+    }
+
+    .hero-sub {
+        font-size: 14px;
+    }
+
+    .feat-grid,
+    .how-steps {
+        grid-template-columns: 1fr;
+    }
+
+    .l-nav {
+        padding: 16px 24px;
+    }
+
+    .stats {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .cta-band {
+        padding: 40px 20px;
+        margin: 40px 16px;
+    }
+
+    .cta-band h2 {
+        font-size: 30px;
+    }
+
+    .hero-form {
+        flex-direction: column;
+        border-radius: 20px;
+        background: transparent;
+        border: none;
+        gap: 12px;
+    }
+
+    .hero-form input {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 12px;
+        width: 100%;
+    }
+
+    .hero-cta {
+        width: 100%;
+        padding: 14px;
+    }
+
+    /* Dashboard / Sidebar */
+    .d-main {
+        flex-direction: column;
+    }
+
+    .d-sidebar {
+        width: 100%;
+        min-height: auto;
+        position: relative;
+        top: 0;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 16px;
+        overflow-x: auto;
+        display: flex;
+        gap: 10px;
+    }
+
+    .sidebar-promo {
+        display: none;
+    }
+
+    .filter-section {
+        margin-bottom: 0;
+        min-width: 150px;
+    }
+
+    .filter-options {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+    }
+
+    .d-jobs {
+        padding: 20px 16px;
+    }
+
+    .jobs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .jobs-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    /* Search Bar */
+    .d-searchbar {
+        padding: 10px 16px;
+        top: 60px;
+        gap: 8px;
+    }
+
+    .search-box {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .salary-pill {
+        margin-left: 0;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    /* Profile & Inner Pages */
+    .inner-main {
+        padding: 24px 16px;
+    }
+
+    .page-title {
+        font-size: 28px;
+    }
+
+    .profile-card {
+        padding: 20px;
+    }
+
+    .profile-top {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .save-profile-btn {
+        margin: 15px 0 0 0;
+        width: 100%;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Dashboard (ov- prefixed classes) */
+    .ov-body {
+        flex-direction: column !important;
+        padding: 0 !important;
+    }
+
+    .ov-leftnav,
+    .ov-rightnav {
+        width: 100% !important;
+        position: relative !important;
+        top: 0 !important;
+        transform: none !important;
+        opacity: 1 !important;
+        border: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        padding: 20px 16px !important;
+        min-height: auto !important;
+    }
+
+    .ov-center {
+        width: 100% !important;
+        padding: 20px 16px !important;
+    }
+
+    .ov-leftnav-avatar {
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    .ov-stats {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+
+    .ov-mc {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .ov-mc-right {
+        width: 100% !important;
+        margin-top: 12px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+
+    .ov-mc-apply {
+        width: auto !important;
+        padding: 8px 16px !important;
+    }
+
+    .ov-panel-card {
+        margin-bottom: 20px !important;
+    }
+
+    .ov-quick {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* FindJob Searchbar */
+    .d-searchbar {
+        padding: 16px !important;
+        margin: 10px !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        top: 0 !important;
+        position: relative !important;
+    }
+
+    .search-box {
+        max-width: none !important;
+    }
+
+    /* ATS Result */
+    .ats-score-row {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+
+    /* Hiring Cards */
+    .hiring-card {
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 15px !important;
+    }
+
+    /* Generic Containers with inline maxWidth */
+    .inner-main,
+    [style*="max-width: 800px"],
+    [style*="max-width: 1100px"],
+    [style*="max-width: 1200px"] {
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+
+    /* Community Tabs */
+    .comm-tabs {
+        width: 100% !important;
+        overflow-x: auto !important;
+        justify-content: flex-start !important;
+        padding-bottom: 8px !important;
+    }
+
+    .comm-tab {
+        white-space: nowrap !important;
+    }
+
+    /* ATS upload box */
+    .ats-upload {
+        padding: 24px !important;
+    }
+}
+
+/* Extra Small */
+@media (max-width: 480px) {
+    .hero-h1 {
+        font-size: 32px;
+    }
+
+    .feat-card {
+        padding: 24px 20px;
+    }
+}

@@ -32,19 +32,15 @@ export default function Login() {
             <div className="glow-bg"></div>
 
             <motion.div
-                className="auth-card"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
+                className="auth-card glass-card"
+                initial={{ opacity: 0, scale: 0.8, y: 40 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ type: 'spring', stiffness: 120, damping: 14 }}
                 style={{
-                    background: 'var(--dark2)',
-                    border: '1px solid rgba(232, 212, 139, 0.15)',
-                    borderRadius: '24px',
-                    padding: '40px',
+                    padding: '44px',
                     width: '100%',
-                    maxWidth: '420px',
+                    maxWidth: '440px',
                     zIndex: 10,
-                    boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
                 }}
             >
                 <div style={{ textAlign: 'center', marginBottom: '32px' }}>

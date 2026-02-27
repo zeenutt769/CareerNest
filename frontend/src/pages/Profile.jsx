@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { motion } from 'framer-motion';
 import { useToast } from '../components/Toast';
 
 export default function Profile() {
@@ -38,14 +39,23 @@ export default function Profile() {
                 <h1 className="page-title">Your <span>Profile</span></h1>
                 <p className="page-sub">Complete your profile to get better job matches and visibility to recruiters.</p>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="profile-card">
+                    <motion.div
+                        className="profile-card glass-card"
+                        initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+                    >
                         <div className="profile-top">
-                            <div className="big-avatar">RS</div>
+                            <motion.div
+                                className="big-avatar"
+                                animate={{ y: [0, -8, 0] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                            >RS</motion.div>
                             <div className="profile-info">
                                 <h2>Rahul Sharma</h2>
                                 <p>B.Tech CSE • Mumbai University • 2025</p>
                             </div>
-                            <button type="submit" className="save-profile-btn">Save Profile</button>
+                            <button type="submit" className="save-profile-btn btn-gold">Save Profile</button>
                         </div>
                         <div className="form-grid">
                             <div className="form-group"><label>Full Name</label><input type="text" {...register('fullName')} /></div>
@@ -68,7 +78,7 @@ export default function Profile() {
                             <div className="form-group"><label>GitHub URL</label><input type="url" placeholder="https://github.com/username" {...register('github')} /></div>
                             <div className="form-group"><label>LinkedIn URL</label><input type="url" placeholder="https://linkedin.com/in/username" {...register('linkedin')} /></div>
                         </div>
-                    </div>
+                    </motion.div>
                 </form>
             </div>
         </div>

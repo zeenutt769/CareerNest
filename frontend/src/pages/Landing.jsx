@@ -4,6 +4,26 @@ import { motion } from 'framer-motion';
 import { Target, FileText, Bell } from 'lucide-react';
 import { useToast } from '../components/Toast';
 
+const staggerContainer = {
+    hidden: { opacity: 0 },
+    show: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.2
+        }
+    }
+};
+
+const fadeUp = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'tween', ease: [0.4, 0, 0.2, 1], duration: 0.5 }
+    }
+};
+
 export default function Landing() {
     const navigate = useNavigate();
     const toast = useToast();
@@ -27,27 +47,28 @@ export default function Landing() {
             </nav>
 
             {/* HERO */}
-            <section className="hero">
-                <motion.div className="hero-badge"
-                    initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <motion.section
+                className="hero"
+                variants={staggerContainer}
+                initial="hidden"
+                animate="show"
+            >
+                <motion.div className="hero-badge" variants={fadeUp}>
                     Find your dream job today
                 </motion.div>
-                <motion.h1 className="hero-h1"
-                    initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }}>
+                <motion.h1 className="hero-h1" variants={fadeUp}>
                     <span className="italic">Smart job</span> matching<br />
                     for <span className="italic">students</span> & freshers
                 </motion.h1>
-                <motion.p className="hero-sub"
-                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.6 }}>
+                <motion.p className="hero-sub" variants={fadeUp}>
                     CareerNest aggregates thousands of opportunities, checks your ATS resume score,
                     and connects you to the right role — all in one place.
                 </motion.p>
-                <motion.div className="hero-form"
-                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }}>
+                <motion.div className="hero-form" variants={fadeUp}>
                     <input type="text" id="landingEmail" placeholder="Enter your email to get started..." />
                     <button className="hero-cta" onClick={() => navigate('/login')}>Get Started →</button>
                 </motion.div>
-            </section>
+            </motion.section>
 
             {/* FEATURES */}
             <div className="features">
@@ -59,11 +80,11 @@ export default function Landing() {
                         { icon: <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14,2 14,8 20,8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10,9 9,9 8,9" /></svg>, title: 'ATS Resume Checker', desc: 'Upload your resume and get an instant ATS match score against any job description. Know exactly which keywords to add before applying.' },
                         { icon: <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" /></svg>, title: 'Daily Job Digest', desc: 'Get a curated digest of new openings matching your profile delivered to your email or WhatsApp every morning.' },
                     ].map((feat, idx) => (
-                        <motion.div key={idx} className="feat-card"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: idx * 0.15 }}
-                            viewport={{ once: true }}>
+                        <motion.div key={idx} className="feat-card glass-card"
+                            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ delay: idx * 0.1, type: 'spring', stiffness: 100, damping: 15 }}
+                            viewport={{ once: true, margin: "-50px" }}>
                             <div className="feat-icon">{feat.icon}</div>
                             <h3>{feat.title}</h3>
                             <p>{feat.desc}</p>
@@ -81,11 +102,11 @@ export default function Landing() {
                         { num: '2', title: 'Discover Opportunities', desc: 'Browse thousands of curated jobs filtered by your tech stack, salary, location, and experience level.' },
                         { num: '3', title: 'Apply with Confidence', desc: "Check your ATS score, get missing keyword suggestions, then apply directly — all without leaving CareerNest." },
                     ].map((s, idx) => (
-                        <motion.div key={idx} className="how-step"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: idx * 0.15 }}
-                            viewport={{ once: true }}>
+                        <motion.div key={idx} className="how-step glass-card" style={{ padding: '34px 26px', borderRadius: '20px' }}
+                            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ delay: idx * 0.1, type: 'spring', stiffness: 100, damping: 15 }}
+                            viewport={{ once: true, margin: "-50px" }}>
                             <div className="step-num">{s.num}</div>
                             <h3>{s.title}</h3>
                             <p>{s.desc}</p>

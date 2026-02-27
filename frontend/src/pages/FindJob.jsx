@@ -43,10 +43,17 @@ export default function FindJob() {
     };
 
     return (
-        <>
+        <div className="page active" id="findjob" style={{ position: 'relative' }}>
+            <div className="glow-bg"></div>
             {/* SEARCH BAR */}
-            <div className="d-searchbar">
-                <div className="search-box" style={{ flex: 1, maxWidth: 210 }}>
+            <motion.div
+                className="d-searchbar glass-panel"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+                style={{ padding: '16px 48px', margin: '0 48px', borderRadius: '24px', position: 'relative', top: '24px', zIndex: 100, display: 'flex', gap: '12px', alignItems: 'center' }}
+            >
+                <div className="search-box glass-card" style={{ flex: 1, maxWidth: 210 }}>
                     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg>
                     <input type="text" placeholder="Job title or skill..." value={searchInput} onChange={(e) => setSearchInput(e.target.value)} />
                 </div>
@@ -58,11 +65,11 @@ export default function FindJob() {
                     <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></svg>
                     Experience <span>▾</span>
                 </button>
-                <button className="filter-pill" onClick={() => toast('Filter: Per Month / Per Year')}>
-                    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" /></svg>
+                <button className="filter-pill glass-card" onClick={() => toast('Filter: Per Month / Per Year')} style={{ padding: '10px 16px', borderRadius: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--white)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <svg viewBox="0 0 24 24" style={{ width: 16, height: 16, stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" /></svg>
                     Per Month <span>▾</span>
                 </button>
-                <div className="salary-pill">
+                <div className="salary-pill glass-card" style={{ padding: '12px 20px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)' }}>
                     <div>
                         <div className="salary-label">Salary Range</div>
                         <div className="salary-val">₹20K – ₹{salaryMax * 2}K</div>
@@ -73,12 +80,17 @@ export default function FindJob() {
                         style={{ background: `linear-gradient(to right, var(--gold) ${salaryPct}%, rgba(255,255,255,0.12) ${salaryPct}%)` }}
                     />
                 </div>
-            </div>
+            </motion.div>
 
             {/* MAIN */}
-            <div className="d-main">
+            <div className="d-main" style={{ marginTop: '24px' }}>
                 {/* SIDEBAR */}
-                <aside className="d-sidebar">
+                <motion.aside
+                    className="d-sidebar glass-panel"
+                    initial={{ x: -250, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+                >
                     <div className="sidebar-promo">
                         <h4>Get your best career start with <span>CareerNest</span></h4>
                         <button className="sidebar-promo-btn" onClick={() => navigate('/ats')}>Check ATS Score →</button>
@@ -110,7 +122,7 @@ export default function FindJob() {
                             </div>
                         ))}
                     </div>
-                </aside>
+                </motion.aside>
 
                 {/* JOBS GRID */}
                 <div className="d-jobs">
@@ -128,16 +140,17 @@ export default function FindJob() {
                         {filteredJobs.map((j, idx) => (
                             <motion.div
                                 key={j.id}
-                                className={`job-card ${j.accent} fade-in`}
+                                className={`job-card ${j.accent} glass-card`}
                                 onClick={() => setSelectedJob(j)}
-                                initial={{ opacity: 0, y: 15 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: idx * 0.04 }}>
-                                <button
+                                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                transition={{ delay: idx * 0.1, type: 'spring', stiffness: 120, damping: 14 }}>
+                                <motion.button
                                     className={`bookmark-btn ${bookmarks[j.id] ? 'saved' : ''}`}
-                                    onClick={(e) => { e.stopPropagation(); toggleBM(j.id); }}>
+                                    onClick={(e) => { e.stopPropagation(); toggleBM(j.id); }}
+                                    whileTap={{ scale: 0.85 }}>
                                     <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" /></svg>
-                                </button>
+                                </motion.button>
                                 <div className="job-date">{j.date}</div>
                                 <div className="job-company">{j.company}</div>
                                 <div className="job-title-row">
@@ -160,6 +173,6 @@ export default function FindJob() {
 
             {/* MODAL */}
             {selectedJob && <JobModal job={selectedJob} onClose={() => setSelectedJob(null)} />}
-        </>
+        </div>
     );
 }
