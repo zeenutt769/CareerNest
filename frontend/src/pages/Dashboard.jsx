@@ -111,7 +111,7 @@ export default function OverviewDashboard() {
 
                     {/* BEST MATCHES */}
                     <div className="ov-sec-head">
-                        <div className="ov-sec-title">🔥 Best <em>Matches</em> For You</div>
+                        <div className="ov-sec-title">Bookmarked Jobs</div>
                         <button className="ov-view-all" onClick={() => navigate('/jobs')}>View All Jobs →</button>
                     </div>
                     <div className="ov-match-list">

@@ -603,6 +603,19 @@ body {
   box-shadow: 0 8px 25px rgba(232, 212, 139, 0.4);
 }
 
+.btn-gold:disabled {
+  background: var(--gray2);
+  color: var(--gray);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-gold:disabled::after {
+  display: none;
+}
+
 .btn-gold:active {
   transform: scale(0.97) translateY(0);
 }

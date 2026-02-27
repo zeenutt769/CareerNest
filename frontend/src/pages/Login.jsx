@@ -6,28 +6,51 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
     const [isLogin, setIsLogin] = useState(true);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
     const navigate = useNavigate();
     const toast = useToast();
     const { login } = useAuth();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const action = isLogin ? 'Logging in...' : 'Signing up...';
-        toast(action);
-        setTimeout(() => {
-            login();
-            navigate('/dashboard');
-        }, 1200);
+        setIsLoading(true);
+
+        const endpoint = isLogin ? '/api/auth/login' : '/api/auth/signup';
+        const payload = isLogin ? { email, password } : { name, email, password };
+        const backendUrl = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+
+        try {
+            const response = await fetch(`${backendUrl}${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                toast(data.message || 'Success!');
+                login(data.token); // Updates auth context and stores token
+                navigate('/dashboard');
+            } else {
+                toast(data.message || 'Authentication failed');
+            }
+        } catch (error) {
+            toast('Error connecting to server');
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleGoogleOAuth = () => {
-        toast('Redirecting to Google OAuth...');
-        // Mocking oauth delay
-        setTimeout(() => {
-            toast('Successfully authenticated with Google!');
-            login();
-            navigate('/dashboard');
-        }, 1500);
+        const backendUrl = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+        toast('Redirecting to Google...');
+        window.location.href = `${backendUrl}/api/auth/google`;
     };
 
     return (
@@ -60,18 +83,36 @@ export default function Login() {
                     {!isLogin && (
                         <div className="search-box" style={{ width: '100%' }}>
                             <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                            <input type="text" placeholder="Full Name" required />
+                            <input
+                                type="text"
+                                placeholder="Full Name"
+                                required
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
                         </div>
                     )}
 
                     <div className="search-box" style={{ width: '100%' }}>
                         <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                        <input type="email" placeholder="Email Address" required />
+                        <input
+                            type="email"
+                            placeholder="Email Address"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     </div>
 
                     <div className="search-box" style={{ width: '100%' }}>
                         <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                        <input type="password" placeholder="Password" required />
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
                     </div>
 
                     {isLogin && (
@@ -82,8 +123,8 @@ export default function Login() {
                         </div>
                     )}
 
-                    <button type="submit" className="btn-gold" style={{ width: '100%', marginTop: '8px' }}>
-                        {isLogin ? 'Login' : 'Sign Up'}
+                    <button type="submit" className="btn-gold" style={{ width: '100%', marginTop: '8px' }} disabled={isLoading}>
+                        {isLoading ? 'Processing...' : (isLogin ? 'Login' : 'Sign Up')}
                     </button>
 
                     <div style={{ display: 'flex', alignItems: 'center', margin: '20px 0' }}>
