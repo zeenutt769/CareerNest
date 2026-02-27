@@ -89,9 +89,9 @@ body {
   right: 0;
   bottom: 0;
   pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(232, 212, 139, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.03) 0%, transparent 40%);
+  z-index: -2;
+  background: radial-gradient(circle at 50% 0%, rgba(232, 212, 139, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.02) 0%, transparent 40%);
   background-size: 200% 200%;
   animation: panBg 15s ease infinite;
 }
@@ -103,6 +103,10 @@ body {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.auth-card {
+  border-radius: 36px;
 }
 
 .glass-panel {
@@ -256,7 +260,6 @@ body {
 
 /* LANDING */
 #landing {
-  background: var(--black);
   position: relative;
   overflow: hidden;
 }
@@ -1123,7 +1126,6 @@ body {
 
 /* INNER PAGES */
 .inner-page-body {
-  background: var(--black);
   min-height: 100vh;
 }
 
@@ -2699,6 +2701,7 @@ body {
   background: var(--gray2);
   border-radius: 4px;
 }
+
 /* RESPONSIVE DESIGN */
 
 /* Max Width 1200px */
@@ -2706,22 +2709,30 @@ body {
   .hero-h1 {
     font-size: clamp(40px, 5vw, 70px);
   }
+
   .ov-body {
     grid-template-columns: 80px 1fr 250px;
   }
-  .ov-leftnav-name, .ov-leftnav-sub, .ov-nav-label, .ov-nav-item span, .ov-nav-badge {
+
+  .ov-leftnav-name,
+  .ov-leftnav-sub,
+  .ov-nav-label,
+  .ov-nav-item span,
+  .ov-nav-badge {
     display: none;
   }
+
   .ov-nav-item {
     justify-content: center;
     padding: 10px;
   }
+
   .ov-leftnav-avatar {
     width: 40px;
     height: 40px;
     font-size: 16px;
   }
-  
+
   .jobs-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -2729,26 +2740,35 @@ body {
 
 /* Max Width 1024px (Tablets / Laptops) */
 @media (max-width: 1024px) {
-  .feat-grid, .how-steps {
+
+  .feat-grid,
+  .how-steps {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .stats {
     flex-wrap: wrap;
     gap: 40px;
   }
+
   .d-sidebar {
     position: static;
-    display: none; /* Can be toggled with a mobile menu */
+    display: none;
+    /* Can be toggled with a mobile menu */
   }
+
   .ov-stats {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .ov-body {
     grid-template-columns: 80px 1fr;
   }
+
   .ov-rightnav {
     display: none;
   }
+
   .ov-kanban {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -2759,77 +2779,103 @@ body {
   .d-header {
     padding: 0 20px;
   }
+
   .d-nav {
-    display: none; /* Hide primary nav, need a hamburger menu in Header.jsx */
+    display: none;
+    /* Hide primary nav, need a hamburger menu in Header.jsx */
   }
+
   .l-nav {
     padding: 16px 20px;
   }
+
   .hero {
     padding: 30px 16px;
   }
+
   .hero-h1 {
     font-size: clamp(32px, 8vw, 46px);
   }
+
   .hero-form {
     flex-direction: column;
     background: transparent;
     border: none;
     gap: 10px;
   }
+
   .hero-form input {
     width: 100%;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 50px;
   }
+
   .hero-cta {
     width: 100%;
   }
-  .feat-grid, .how-steps {
+
+  .feat-grid,
+  .how-steps {
     grid-template-columns: 1fr;
   }
+
   .jobs-grid {
     grid-template-columns: 1fr;
   }
+
   .d-jobs {
     padding: 20px;
   }
+
   .d-searchbar {
     padding: 14px 20px;
     flex-direction: column;
     align-items: stretch;
   }
+
   .search-box {
     max-width: 100% !important;
   }
-  .filter-pill, .salary-pill {
+
+  .filter-pill,
+  .salary-pill {
     width: 100%;
     justify-content: center;
   }
+
   .cta-band {
     margin: 40px 20px;
     padding: 40px 20px;
   }
+
   .cta-btns {
     flex-direction: column;
   }
+
   .inner-main {
     padding: 30px 20px;
   }
+
   .form-grid {
     grid-template-columns: 1fr;
   }
+
   .ov-body {
     grid-template-columns: 1fr;
     display: block;
   }
+
   .ov-leftnav {
-    display: none; /* Need a mobile bottom bar or drawer */
+    display: none;
+    /* Need a mobile bottom bar or drawer */
   }
-  .ov-stats, .ov-kanban {
+
+  .ov-stats,
+  .ov-kanban {
     grid-template-columns: 1fr;
   }
+
   .ov-center {
     padding: 20px;
   }
@@ -2840,16 +2886,22 @@ body {
   .stat-num {
     font-size: 36px;
   }
-  .section-title, .cta-band h2 {
+
+  .section-title,
+  .cta-band h2 {
     font-size: 32px;
   }
-  .profile-card, .ats-upload {
+
+  .profile-card,
+  .ats-upload {
     padding: 20px;
   }
+
   .ats-score-row {
     flex-direction: column;
     text-align: center;
   }
+
   .modal {
     padding: 20px;
   }
@@ -2869,7 +2921,7 @@ body {
   .mobile-nav-toggle {
     display: block;
   }
-  
+
   .d-nav.mobile-active {
     display: flex;
     flex-direction: column;
@@ -2882,13 +2934,13 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     z-index: 1000;
   }
-  
+
   .d-nav.mobile-active a {
     width: 100%;
     text-align: center;
     padding: 12px;
   }
-  
+
   .d-sidebar.mobile-active {
     display: block;
     position: fixed;
@@ -2897,7 +2949,7 @@ body {
     bottom: 0;
     z-index: 999;
     width: 250px;
-    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
     overflow-y: auto;
   }
 }

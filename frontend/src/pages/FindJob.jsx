@@ -44,7 +44,6 @@ export default function FindJob() {
 
     return (
         <div className="page active" id="findjob" style={{ position: 'relative' }}>
-            <div className="glow-bg"></div>
             {/* SEARCH BAR */}
             <motion.div
                 className="d-searchbar glass-panel"

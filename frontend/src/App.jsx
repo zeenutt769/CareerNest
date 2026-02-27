@@ -13,11 +13,11 @@ import FAQ from './pages/FAQ';
 import Header from './components/Header';
 import Login from './pages/Login';
 import PageTransition from './components/PageTransition';
+import ParticleBackground from './components/ParticleBackground';
 
 function Layout({ children }) {
     return (
         <>
-            <div className="glow-bg"></div>
             <Header />
             {children}
         </>
@@ -48,6 +48,8 @@ export default function App() {
     return (
         <ToastProvider>
             <BrowserRouter>
+                <ParticleBackground />
+                <div className="glow-bg"></div>
                 <AnimatedRoutes />
             </BrowserRouter>
         </ToastProvider>

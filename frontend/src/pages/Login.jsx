@@ -29,7 +29,6 @@ export default function Login() {
     return (
         <div className="page active" id="login" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', position: 'relative' }}>
             {/* Background elements (reusing landing glow) */}
-            <div className="glow-bg"></div>
 
             <motion.div
                 className="auth-card glass-card"
