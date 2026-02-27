@@ -1,0 +1,130 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Target, FileText, Bell } from 'lucide-react';
+import { useToast } from '../components/Toast';
+
+export default function Landing() {
+    const navigate = useNavigate();
+    const toast = useToast();
+
+    const handleLanding = () => {
+        const email = document.getElementById('landingEmail')?.value;
+        if (!email || !email.includes('@')) {
+            toast('Please enter a valid email!');
+            return;
+        }
+        toast('Welcome to CareerNest! Redirecting...');
+        setTimeout(() => navigate('/jobs'), 1100);
+    };
+
+    return (
+        <div className="page active" id="landing">
+            {/* NAV */}
+            <nav className="l-nav">
+                <div className="l-logo">Career<span>Nest</span></div>
+                <button className="l-nav-btn" onClick={() => navigate('/jobs')}>Launch App →</button>
+            </nav>
+
+            {/* HERO */}
+            <section className="hero">
+                <motion.div className="hero-badge"
+                    initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+                    V1. Now Live &nbsp;—&nbsp; Find your dream job today
+                </motion.div>
+                <motion.h1 className="hero-h1"
+                    initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }}>
+                    <span className="italic">Smart job</span> matching<br />
+                    for <span className="italic">students</span> & freshers
+                </motion.h1>
+                <motion.p className="hero-sub"
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.6 }}>
+                    CareerNest aggregates thousands of opportunities, checks your ATS resume score,
+                    and connects you to the right role — all in one place.
+                </motion.p>
+                <motion.div className="hero-form"
+                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }}>
+                    <input type="text" id="landingEmail" placeholder="Enter your email to get started..." />
+                    <button className="hero-cta" onClick={handleLanding}>Get Started →</button>
+                </motion.div>
+            </section>
+
+            {/* FEATURES */}
+            <div className="features">
+                <h2 className="section-title">Everything a student needs to <span>land their first job</span></h2>
+                <p className="section-sub">From resume scanning to direct applications — CareerNest covers your full job search journey</p>
+                <div className="feat-grid">
+                    {[
+                        { icon: <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></svg>, title: 'Smart Job Matching', desc: 'AI-powered algorithm matches your skills and preferences to the most relevant opportunities across LinkedIn, Indeed, and Glassdoor.' },
+                        { icon: <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14,2 14,8 20,8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10,9 9,9 8,9" /></svg>, title: 'ATS Resume Checker', desc: 'Upload your resume and get an instant ATS match score against any job description. Know exactly which keywords to add before applying.' },
+                        { icon: <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" /></svg>, title: 'Daily Job Digest', desc: 'Get a curated digest of new openings matching your profile delivered to your email or WhatsApp every morning.' },
+                    ].map((feat, idx) => (
+                        <motion.div key={idx} className="feat-card"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.15 }}
+                            viewport={{ once: true }}>
+                            <div className="feat-icon">{feat.icon}</div>
+                            <h3>{feat.title}</h3>
+                            <p>{feat.desc}</p>
+                        </motion.div>
+                    ))}
+                </div>
+            </div>
+
+            {/* STATS */}
+            <div className="stats">
+                {[
+                    { num: '50K+', label: 'Active Jobs' },
+                    { num: '12K+', label: 'Students Placed' },
+                    { num: '500+', label: 'Partner Companies' },
+                    { num: '97%', label: 'Satisfaction Rate' },
+                ].map((stat, idx) => (
+                    <motion.div key={idx}
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                        viewport={{ once: true }}>
+                        <div className="stat-num">{stat.num}</div>
+                        <div className="stat-label">{stat.label}</div>
+                    </motion.div>
+                ))}
+            </div>
+
+            {/* HOW IT WORKS */}
+            <div className="how" style={{ maxWidth: 1200, margin: '0 auto' }}>
+                <h2 className="section-title">How <span>CareerNest</span> works</h2>
+                <div className="how-steps">
+                    {[
+                        { num: '1', title: 'Create Your Profile', desc: 'Sign up with Google or GitHub. Add your academic details, skills, and target roles. Upload your resume for auto-fill.' },
+                        { num: '2', title: 'Discover Opportunities', desc: 'Browse thousands of curated jobs filtered by your tech stack, salary, location, and experience level.' },
+                        { num: '3', title: 'Apply with Confidence', desc: "Check your ATS score, get missing keyword suggestions, then apply directly — all without leaving CareerNest." },
+                    ].map((s, idx) => (
+                        <motion.div key={idx} className="how-step"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.15 }}
+                            viewport={{ once: true }}>
+                            <div className="step-num">{s.num}</div>
+                            <h3>{s.title}</h3>
+                            <p>{s.desc}</p>
+                        </motion.div>
+                    ))}
+                </div>
+            </div>
+
+            {/* CTA BAND */}
+            <motion.div className="cta-band" style={{ maxWidth: 1200, margin: '60px auto 80px' }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}>
+                <h2>Ready to find your <span>dream job?</span></h2>
+                <p>Join thousands of students who found their first role through CareerNest</p>
+                <div className="cta-btns">
+                    <button className="btn-gold" onClick={() => navigate('/jobs')}>Browse Jobs Now →</button>
+                    <button className="btn-outline-gold" onClick={() => navigate('/ats')}>Check Resume ATS Score</button>
+                </div>
+            </motion.div>
+        </div>
+    );
+}
