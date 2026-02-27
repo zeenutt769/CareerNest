@@ -1,26 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { useToast } from '../components/Toast';
+import { useAuth } from '../context/AuthContext';
 
 export default function Profile() {
     const toast = useToast();
-    const { register, handleSubmit } = useForm({
-        defaultValues: {
-            fullName: 'Rahul Sharma',
-            email: 'rahul@example.com',
-            university: 'Mumbai University',
-            cgpa: '8.4 / 10',
-            gradYear: '2025',
-            phone: '+91 98765 43210',
-            targetRole: 'Frontend Developer, Full Stack Engineer, SDE-1',
-            preferredLocation: 'Mumbai, Bangalore, Remote',
-            github: '',
-            linkedin: '',
-        }
-    });
+    const { user } = useAuth();
+    const [isLoading, setIsLoading] = useState(false);
+    const [userAccount, setUserAccount] = useState({ name: '', email: '', profilePicture: '' });
+    const { register, handleSubmit, reset } = useForm();
+    const [skills, setSkills] = useState([]);
 
-    const [skills, setSkills] = useState(['React', 'Python', 'Node.js', 'JavaScript', 'SQL']);
+    const backendUrl = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+
+    const getInitials = (userName) => {
+        if (!userName) return 'U';
+        return userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+    };
+
+    // Fetch profile on mount
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`${backendUrl}/api/profiles/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setUserAccount({
+                        name: data.name || user?.name || '',
+                        email: data.email || user?.email || '',
+                        profilePicture: data.profile_picture || ''
+                    });
+                    reset({
+                        fullName: data.full_name || data.name || '',
+                        university: data.university || '',
+                        cgpa: data.cgpa || '',
+                        gradYear: data.graduation_year || '',
+                        phone: data.phone || '',
+                        targetRole: data.target_roles?.join(', ') || '',
+                        preferredLocation: data.preferred_locations?.join(', ') || '',
+                        isRemote: data.is_remote || false,
+                        github: data.github_url || '',
+                        linkedin: data.linkedin_url || '',
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching profile:', error);
+            }
+        };
+
+        fetchProfile();
+    }, [reset, backendUrl, user]);
 
     const removeSkill = (idx) => setSkills(prev => prev.filter((_, i) => i !== idx));
     const addSkill = (e) => {
@@ -31,7 +65,44 @@ export default function Profile() {
         }
     };
 
-    const onSubmit = () => toast('Profile saved! ✓');
+    const onSubmit = async (formData) => {
+        setIsLoading(true);
+        try {
+            const token = localStorage.getItem('token');
+            const payload = {
+                full_name: formData.fullName,
+                university: formData.university,
+                cgpa: parseFloat(formData.cgpa),
+                graduation_year: parseInt(formData.gradYear),
+                phone: formData.phone,
+                target_roles: formData.targetRole.split(',').map(r => r.trim()).filter(r => r),
+                preferred_locations: formData.preferredLocation.split(',').map(l => l.trim()).filter(l => l),
+                is_remote: formData.isRemote || false,
+                github_url: formData.github,
+                linkedin_url: formData.linkedin
+            };
+
+            const response = await fetch(`${backendUrl}/api/profiles`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                toast('Profile saved successfully! ✓');
+            } else {
+                toast('Failed to save profile.');
+            }
+        } catch (error) {
+            console.error('Error saving profile:', error);
+            toast('Network error while saving profile.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <div className="inner-page-body">
@@ -50,20 +121,37 @@ export default function Profile() {
                                 className="big-avatar"
                                 animate={{ y: [0, -8, 0] }}
                                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                            >RS</motion.div>
+                                style={{ overflow: 'hidden' }}
+                            >
+                                {userAccount.profilePicture ? (
+                                    <img
+                                        src={userAccount.profilePicture}
+                                        alt="Avatar"
+                                        referrerPolicy="no-referrer"
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                ) : (
+                                    getInitials(userAccount.name)
+                                )}
+                            </motion.div>
                             <div className="profile-info">
-                                <h2>Rahul Sharma</h2>
-                                <p>B.Tech CSE • Mumbai University • 2025</p>
+                                <h2>{userAccount.name || 'Your Profile'}</h2>
+                                <p>{userAccount.email}</p>
                             </div>
-                            <button type="submit" className="save-profile-btn btn-gold">Save Profile</button>
+                            <button type="submit" className="save-profile-btn btn-gold" disabled={isLoading}>
+                                {isLoading ? 'Saving...' : 'Save Profile'}
+                            </button>
                         </div>
                         <div className="form-grid">
                             <div className="form-group"><label>Full Name</label><input type="text" {...register('fullName')} /></div>
-                            <div className="form-group"><label>Email</label><input type="email" {...register('email')} /></div>
                             <div className="form-group"><label>University</label><input type="text" {...register('university')} /></div>
-                            <div className="form-group"><label>CGPA</label><input type="text" {...register('cgpa')} /></div>
-                            <div className="form-group"><label>Graduation Year</label><input type="text" {...register('gradYear')} /></div>
+                            <div className="form-group"><label>CGPA</label><input type="text" {...register('cgpa')} placeholder="e.g. 8.5" /></div>
+                            <div className="form-group"><label>Graduation Year</label><input type="number" {...register('gradYear')} placeholder="2025" /></div>
                             <div className="form-group"><label>Phone / WhatsApp</label><input type="text" {...register('phone')} /></div>
+                            <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <input type="checkbox" id="isRemote" {...register('isRemote')} />
+                                <label htmlFor="isRemote" style={{ margin: 0 }}>Remote Work Preferred</label>
+                            </div>
                             <div className="form-group full"><label>Target Role</label><input type="text" {...register('targetRole')} /></div>
                             <div className="form-group full"><label>Preferred Location</label><input type="text" {...register('preferredLocation')} /></div>
                             <div className="form-group full">

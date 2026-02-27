@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, Briefcase, FileText, HelpCircle, LayoutDashboard } from "lucide-react";
 
 const NavBar = ({ items }) => {
     const navigate = useNavigate();

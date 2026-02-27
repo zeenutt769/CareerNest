@@ -71,8 +71,7 @@ function NavigationWrapper() {
     const guestItems = [
         { name: 'Home', url: '/', icon: Home },
         { name: 'FAQ', url: '/faq', icon: HelpCircle },
-        { name: 'Login', url: '/login', icon: LogIn },
-        { name: 'Sign Up', url: '/login', icon: User },
+        { name: 'Join Now', url: '/login', icon: LogIn },
     ];
 
     const items = isLoggedIn ? loggedInItems : guestItems;

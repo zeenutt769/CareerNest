@@ -6,6 +6,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
+    const [isAuthLoading, setIsAuthLoading] = useState(true);
 
     const isTokenExpired = useCallback((token) => {
         if (!token) return true;
@@ -26,12 +27,14 @@ export const AuthProvider = ({ children }) => {
                 // Only update if state actually changed
                 setIsLoggedIn(prev => prev !== true ? true : prev);
                 setUser(prev => JSON.stringify(prev) !== JSON.stringify(decoded) ? decoded : prev);
+                setIsAuthLoading(false);
                 return true;
             } catch (err) {
                 setIsLoggedIn(false);
                 setUser(null);
                 localStorage.removeItem('token');
                 localStorage.removeItem('isLoggedIn');
+                setIsAuthLoading(false);
                 return false;
             }
         } else {
@@ -39,6 +42,7 @@ export const AuthProvider = ({ children }) => {
             setUser(prev => prev !== null ? null : prev);
             localStorage.removeItem('token');
             localStorage.removeItem('isLoggedIn');
+            setIsAuthLoading(false);
             return false;
         }
     }, [isTokenExpired]);
@@ -59,6 +63,7 @@ export const AuthProvider = ({ children }) => {
             } catch (err) {
                 setUser(null);
             }
+            setIsAuthLoading(false);
         }
     }, []);
 
@@ -67,15 +72,17 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         localStorage.removeItem('token');
         localStorage.removeItem('isLoggedIn');
+        setIsAuthLoading(false);
     }, []);
 
     const contextValue = useMemo(() => ({
         isLoggedIn,
         user,
+        isAuthLoading,
         login,
         logout,
         checkAuthStatus
-    }), [isLoggedIn, user, login, logout, checkAuthStatus]);
+    }), [isLoggedIn, user, isAuthLoading, login, logout, checkAuthStatus]);
 
     return (
         <AuthContext.Provider value={contextValue}>

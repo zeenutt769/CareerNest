@@ -151,17 +151,19 @@ body {
   position: relative;
   cursor: pointer;
   font-size: 14px;
-  padding: 12px 28px;
+  padding: 10px 20px;
   border-radius: 9999px;
-  transition: color 0.3s;
+  transition: all 0.3s var(--ease-premium);
   color: rgba(255, 255, 255, 0.7);
   display: flex;
   align-items: center;
+  gap: 8px;
   justify-content: center;
 }
 
 .tubelight-nav-item:hover {
   color: var(--gold);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .tubelight-nav-item.active {
@@ -169,7 +171,8 @@ body {
 }
 
 .nav-icon {
-  display: none;
+  display: block;
+  opacity: 0.8;
 }
 
 @media (max-width: 767px) {
@@ -179,6 +182,7 @@ body {
 
   .nav-icon {
     display: block;
+    font-size: 20px;
   }
 
   .tubelight-nav-item {
