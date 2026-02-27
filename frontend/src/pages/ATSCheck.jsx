@@ -45,10 +45,10 @@ export default function ATSCheck() {
 
     return (
         <div className="inner-page-body">
-            <div className="inner-main">
+            <div className="inner-main" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
                 <h1 className="page-title">Resume <span>ATS Checker</span></h1>
                 <p className="page-sub">Upload your resume and paste a job description to get an instant ATS match score with actionable feedback.</p>
-                <div style={{ maxWidth: 800 }}>
+                <div style={{ maxWidth: 800, width: '100%', textAlign: 'left', margin: '0 auto' }}>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <motion.label
                             className="ats-upload glass-card"

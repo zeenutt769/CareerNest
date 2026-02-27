@@ -40,11 +40,6 @@ export default function Landing() {
 
     return (
         <div className="page active" id="landing">
-            {/* NAV */}
-            <nav className="l-nav">
-                <div className="l-logo">Career<span>Nest</span></div>
-                <button className="l-nav-btn" onClick={() => navigate('/login')}>Login/SignUp→</button>
-            </nav>
 
             {/* HERO */}
             <motion.section

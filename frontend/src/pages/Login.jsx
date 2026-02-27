@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useToast } from '../components/Toast';
+import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
     const [isLogin, setIsLogin] = useState(true);
     const navigate = useNavigate();
     const toast = useToast();
+    const { login } = useAuth();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const action = isLogin ? 'Logging in...' : 'Signing up...';
         toast(action);
         setTimeout(() => {
+            login();
             navigate('/dashboard');
         }, 1200);
     };
@@ -22,12 +25,13 @@ export default function Login() {
         // Mocking oauth delay
         setTimeout(() => {
             toast('Successfully authenticated with Google!');
+            login();
             navigate('/dashboard');
         }, 1500);
     };
 
     return (
-        <div className="page active" id="login" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', position: 'relative' }}>
+        <div className="page active" id="login" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', position: 'relative', paddingTop: '100px', paddingBottom: '40px' }}>
             {/* Background elements (reusing landing glow) */}
 
             <motion.div

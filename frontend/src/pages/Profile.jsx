@@ -35,7 +35,7 @@ export default function Profile() {
 
     return (
         <div className="inner-page-body">
-            <div className="inner-main">
+            <div className="inner-main centered-content">
                 <h1 className="page-title">Your <span>Profile</span></h1>
                 <p className="page-sub">Complete your profile to get better job matches and visibility to recruiters.</p>
                 <form onSubmit={handleSubmit(onSubmit)}>

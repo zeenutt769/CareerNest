@@ -9,10 +9,10 @@ export default function FAQ() {
 
     return (
         <div className="inner-page-body">
-            <div className="inner-main">
+            <div className="inner-main centered-content">
                 <h1 className="page-title">Frequently <span>Asked Questions</span></h1>
                 <p className="page-sub">Everything you need to know about CareerNest</p>
-                <div style={{ maxWidth: 720 }}>
+                <div style={{ maxWidth: 720, width: '100%' }}>
                     {faqs.map((f, i) => (
                         <motion.div key={i} className="faq-item"
                             initial={{ opacity: 0, y: 10 }}
