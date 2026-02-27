@@ -26,11 +26,7 @@ export default function OverviewDashboard() {
         if (job) setSelectedJob(job);
     };
 
-    const kanbanCols = [
-        { label: 'Applied', dot: '#e8d48b', items: ovTracker.filter(x => x.cls === 'applied') },
-        { label: 'Interviewing', dot: '#4ecdc4', items: ovTracker.filter(x => x.cls === 'interview' || x.cls === 'review') },
-        { label: 'Offered / Rejected', dot: '#a29bfe', items: ovTracker.filter(x => x.cls === 'offered' || x.cls === 'rejected') },
-    ];
+    
 
     return (
         <>
@@ -126,31 +122,6 @@ export default function OverviewDashboard() {
                                     <button className="ov-mc-apply" onClick={(e) => { e.stopPropagation(); toast(`Applied to ${m.company}! ✓`); }}>Apply</button>
                                 </div>
                             </motion.div>
-                        ))}
-                    </div>
-
-                    {/* KANBAN TRACKER */}
-                    <div className="ov-sec-head">
-                        <div className="ov-sec-title">📋 Application <em>Tracker</em></div>
-                        <button className="ov-view-all" onClick={() => toast('Full tracker coming soon!')}>Manage →</button>
-                    </div>
-                    <div className="ov-kanban">
-                        {kanbanCols.map((col, ci) => (
-                            <div key={ci} className="ov-kancol">
-                                <div className="ov-kancol-head">
-                                    <div className="ov-kancol-dot" style={{ background: col.dot, boxShadow: `0 0 5px ${col.dot}88` }}></div>
-                                    <div className="ov-kancol-title">{col.label}</div>
-                                    <div className="ov-kancol-count">{col.items.length}</div>
-                                </div>
-                                {col.items.length > 0 ? col.items.map((a, ai) => (
-                                    <div key={ai} className={`ov-kan-card ${a.cls}`}>
-                                        <div className="ov-kan-co">{a.co}</div>
-                                        <div className="ov-kan-role">{a.role}</div>
-                                    </div>
-                                )) : (
-                                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', textAlign: 'center', padding: '12px 0' }}>Empty</div>
-                                )}
-                            </div>
                         ))}
                     </div>
                 </main>

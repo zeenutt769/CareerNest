@@ -23,14 +23,14 @@ export default function Landing() {
             {/* NAV */}
             <nav className="l-nav">
                 <div className="l-logo">Career<span>Nest</span></div>
-                <button className="l-nav-btn" onClick={() => navigate('/jobs')}>Launch App →</button>
+                <button className="l-nav-btn" onClick={() => navigate('/login')}>Login/SignUp→</button>
             </nav>
 
             {/* HERO */}
             <section className="hero">
                 <motion.div className="hero-badge"
                     initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                    V1. Now Live &nbsp;—&nbsp; Find your dream job today
+                    Find your dream job today
                 </motion.div>
                 <motion.h1 className="hero-h1"
                     initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }}>
@@ -45,7 +45,7 @@ export default function Landing() {
                 <motion.div className="hero-form"
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.5 }}>
                     <input type="text" id="landingEmail" placeholder="Enter your email to get started..." />
-                    <button className="hero-cta" onClick={handleLanding}>Get Started →</button>
+                    <button className="hero-cta" onClick={() => navigate('/login')}>Get Started →</button>
                 </motion.div>
             </section>
 
@@ -70,25 +70,6 @@ export default function Landing() {
                         </motion.div>
                     ))}
                 </div>
-            </div>
-
-            {/* STATS */}
-            <div className="stats">
-                {[
-                    { num: '50K+', label: 'Active Jobs' },
-                    { num: '12K+', label: 'Students Placed' },
-                    { num: '500+', label: 'Partner Companies' },
-                    { num: '97%', label: 'Satisfaction Rate' },
-                ].map((stat, idx) => (
-                    <motion.div key={idx}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.1 }}
-                        viewport={{ once: true }}>
-                        <div className="stat-num">{stat.num}</div>
-                        <div className="stat-label">{stat.label}</div>
-                    </motion.div>
-                ))}
             </div>
 
             {/* HOW IT WORKS */}
@@ -121,8 +102,8 @@ export default function Landing() {
                 <h2>Ready to find your <span>dream job?</span></h2>
                 <p>Join thousands of students who found their first role through CareerNest</p>
                 <div className="cta-btns">
-                    <button className="btn-gold" onClick={() => navigate('/jobs')}>Browse Jobs Now →</button>
-                    <button className="btn-outline-gold" onClick={() => navigate('/ats')}>Check Resume ATS Score</button>
+                    <button className="btn-gold" onClick={() => navigate('/login')}>Browse Jobs Now →</button>
+                    <button className="btn-outline-gold" onClick={() => navigate('/login')}>Check Resume ATS Score</button>
                 </div>
             </motion.div>
         </div>

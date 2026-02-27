@@ -10,6 +10,7 @@ import Community from './pages/Community';
 import Hiring from './pages/Hiring';
 import FAQ from './pages/FAQ';
 import Header from './components/Header';
+import Login from './pages/Login';
 
 function Layout({ children }) {
     return (
@@ -27,6 +28,7 @@ export default function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Landing />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/jobs" element={<Layout><FindJob /></Layout>} />
                     <Route path="/ats" element={<Layout><ATSCheck /></Layout>} />
                     <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
