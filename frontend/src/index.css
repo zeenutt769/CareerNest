@@ -3055,3 +3055,87 @@ body {
     overflow-y: auto;
   }
 }
+
+/* Profile Prompt Banner */
+.profile-prompt-banner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, rgba(232, 212, 139, 0.12), rgba(232, 212, 139, 0.03));
+  border: 1px solid rgba(232, 212, 139, 0.25);
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-prompt-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--gold);
+}
+
+.ppb-icon {
+  font-size: 32px;
+  background: rgba(232, 212, 139, 0.1);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  border: 1px solid rgba(232, 212, 139, 0.2);
+}
+
+.ppb-content {
+  flex: 1;
+}
+
+.ppb-content h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 18px;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.ppb-content p {
+  font-size: 14px;
+  color: var(--gray);
+  line-height: 1.5;
+}
+
+.ppb-btn {
+  background: var(--gold);
+  color: var(--black);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-premium);
+  white-space: nowrap;
+}
+
+.ppb-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(232, 212, 139, 0.3);
+}
+
+@media (max-width: 640px) {
+  .profile-prompt-banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .ppb-btn {
+    width: 100%;
+  }
+}

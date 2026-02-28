@@ -20,6 +20,8 @@ export default function OverviewDashboard() {
     const [stats, setStats] = useState({ bookmarks: 0, applied: 0, active: 0, avgATS: 0 });
     const [atsHistory, setAtsHistory] = useState([]);
     const [chartData, setChartData] = useState([]);
+    const [skillGap, setSkillGap] = useState([]);
+    const [isComplete, setIsComplete] = useState(true);
     const [isLoadingStats, setIsLoadingStats] = useState(true);
 
     const backendUrl = API_BASE_URL;
@@ -52,6 +54,8 @@ export default function OverviewDashboard() {
                     setStats(data.stats);
                     setAtsHistory(data.atsHistory);
                     setChartData(data.chartData);
+                    setSkillGap(data.skillGap || []);
+                    setIsComplete(data.isComplete);
                 }
             } catch (err) {
                 console.error('Failed to fetch stats:', err);
@@ -124,9 +128,35 @@ export default function OverviewDashboard() {
                 {/* CENTER */}
                 <main className="ov-center">
                     <div className="ov-greeting fade-in">
-                        <h1>Good evening, <em>{user?.name?.split(' ')[0] || 'User'}</em> 👋</h1>
-                        <p>Welcome back! You have 0 new matches since yesterday. Complete your profile for more matches.</p>
+                        <h1>Good evening, {user?.name?.split(' ')[0] || 'User'}</h1>
+                        <p>
+                            Welcome back! You have 0 new matches since yesterday.
+                            {!isComplete && " Complete your profile for more matches."}
+                        </p>
                     </div>
+
+                    {!isComplete && (
+                        <motion.div
+                            className="profile-prompt-banner glass-card"
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 }}
+                        >
+                            <div className="ppb-icon">
+                                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                    <line x1="12" y1="11" x2="12" y2="13" />
+                                    <line x1="11" y1="12" x2="13" y2="12" />
+                                </svg>
+                            </div>
+                            <div className="ppb-content">
+                                <h3>Complete Your Profile</h3>
+                                <p>Unlock personalized job matches and skill gap analysis by adding your skills and target roles.</p>
+                            </div>
+                            <button className="ppb-btn" onClick={() => navigate('/profile')}>Complete Now →</button>
+                        </motion.div>
+                    )}
 
                     {/* STATS */}
                     <div className="ov-stats">
@@ -261,31 +291,36 @@ export default function OverviewDashboard() {
                             <svg viewBox="0 0 24 24"><line x1="9" y1="18" x2="15" y2="18" /><line x1="10" y1="22" x2="14" y2="22" /><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0018 8 6 6 0 006 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 018.91 14" /></svg>
                             Skill Gap Analysis
                         </div>
-                        <div className="ov-skill-gap">
-                            <div className="ov-skill-gap-head">
-                                <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
-                                Missing for SDE roles in Bangalore
+                        {skillGap.length > 0 ? skillGap.map((gap, i) => (
+                            <div key={i} className="ov-skill-gap" style={{ marginTop: i > 0 ? 8 : 0 }}>
+                                <div className="ov-skill-gap-head">
+                                    <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
+                                    Missing for {gap.role}
+                                </div>
+                                <div className="ov-skill-gap-text">
+                                    {gap.missing.length > 0 ? (
+                                        <>You're missing these skills for <strong>{100 - gap.matchPercent}%</strong> of requirements:</>
+                                    ) : (
+                                        <>You're a <strong>100% match</strong> for this role! Great job.</>
+                                    )}
+                                </div>
+                                <div className="ov-skill-gap-tags">
+                                    {gap.missing.map(skill => (
+                                        <span key={skill} className="ov-skill-gap-tag">{skill}</span>
+                                    ))}
+                                </div>
+                                {gap.missing.length > 0 && (
+                                    <button
+                                        className="ov-learn-btn"
+                                        onClick={() => window.open(`https://www.youtube.com/results?search_query=${gap.missing[0]}+tutorial`, '_blank')}
+                                    >
+                                        🎓 Learn {gap.missing[0]} on YouTube →
+                                    </button>
+                                )}
                             </div>
-                            <div className="ov-skill-gap-text">You're missing these skills in <strong>60% of SDE-1 roles</strong> you're targeting:</div>
-                            <div className="ov-skill-gap-tags">
-                                <span className="ov-skill-gap-tag">Docker</span>
-                                <span className="ov-skill-gap-tag">Kubernetes</span>
-                                <span className="ov-skill-gap-tag">CI/CD</span>
-                            </div>
-                            <button className="ov-learn-btn" onClick={() => window.open('https://www.youtube.com/results?search_query=docker+kubernetes+tutorial', '_blank')}>🎓 Learn Now on YouTube →</button>
-                        </div>
-                        <div className="ov-skill-gap" style={{ marginTop: 8 }}>
-                            <div className="ov-skill-gap-head">
-                                <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
-                                Missing for Data roles
-                            </div>
-                            <div className="ov-skill-gap-text">Add these to unlock <strong>40% more</strong> Data Science matches:</div>
-                            <div className="ov-skill-gap-tags">
-                                <span className="ov-skill-gap-tag">Spark</span>
-                                <span className="ov-skill-gap-tag">Tableau</span>
-                            </div>
-                            <button className="ov-learn-btn" onClick={() => window.open('https://www.coursera.org/search?query=apache+spark', '_blank')}>📚 Learn on Coursera →</button>
-                        </div>
+                        )) : (
+                            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem', padding: '10px 0' }}>Complete your profile to see skill gaps.</div>
+                        )}
                     </div>
 
                     {/* ATS Scores */}

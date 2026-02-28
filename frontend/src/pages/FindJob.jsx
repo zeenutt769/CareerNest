@@ -12,6 +12,7 @@ export default function FindJob() {
     const [jobsList, setJobsList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchInput, setSearchInput] = useState('');
+    const [targetRoles, setTargetRoles] = useState([]);
     const [salaryMax, setSalaryMax] = useState(80);
     const [sortBy, setSortBy] = useState('latest');
     const [selectedJob, setSelectedJob] = useState(null);
@@ -49,6 +50,15 @@ export default function FindJob() {
                         ids.forEach(id => bmMap[id] = true);
                         setBookmarks(bmMap);
                     }
+
+                    // Fetch Profile for target roles
+                    const profileRes = await fetch(`${backendUrl}/api/profile`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (profileRes.ok) {
+                        const profile = await profileRes.json();
+                        setTargetRoles(profile.target_roles || []);
+                    }
                 }
             } catch (err) {
                 console.error('Failed to fetch initial data:', err);
@@ -62,6 +72,16 @@ export default function FindJob() {
     const filteredJobs = useMemo(() => {
         let result = jobsList;
         if (!result || result.length === 0) return [];
+
+        // 0. Default Filter: Match Target Roles if no search input
+        if (!searchInput && targetRoles.length > 0) {
+            result = result.filter(j =>
+                targetRoles.some(role =>
+                    j.title?.toLowerCase().includes(role.toLowerCase()) ||
+                    j.description?.toLowerCase().includes(role.toLowerCase())
+                )
+            );
+        }
 
         // 1. Search (Title + Company + Location)
         const q = searchInput.toLowerCase();
@@ -148,7 +168,7 @@ export default function FindJob() {
         if (sortBy === 'company') result = [...result].sort((a, b) => (a.company || '').localeCompare(b.company || ''));
 
         return result;
-    }, [searchInput, locationQuery, sortBy, jobsList, filters, salaryMax, isYearly]);
+    }, [searchInput, targetRoles, locationQuery, sortBy, jobsList, filters, salaryMax, isYearly]);
 
     const toggleBM = async (id) => {
         try {
