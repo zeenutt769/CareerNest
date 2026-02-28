@@ -11,6 +11,7 @@ export default function Profile() {
     const [userAccount, setUserAccount] = useState({ name: '', email: '', profilePicture: '' });
     const { register, handleSubmit, reset } = useForm();
     const [skills, setSkills] = useState([]);
+    console.log('Current skills in state:', skills);
 
     const backendUrl = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
 
@@ -35,6 +36,8 @@ export default function Profile() {
                         email: data.email || user?.email || '',
                         profilePicture: data.profile_picture || ''
                     });
+                    console.log('Raw data from API:', data);
+                    setSkills((data.skills || []).map(s => String(s).trim()).filter(s => s));
                     reset({
                         fullName: data.full_name || data.name || '',
                         university: data.university || '',
@@ -59,7 +62,10 @@ export default function Profile() {
     const removeSkill = (idx) => setSkills(prev => prev.filter((_, i) => i !== idx));
     const addSkill = (e) => {
         if (e.key === 'Enter' && e.target.value.trim()) {
-            setSkills(prev => [...prev, e.target.value.trim()]);
+            const val = e.target.value.trim();
+            if (!skills.includes(val)) {
+                setSkills(prev => [...prev, val]);
+            }
             e.target.value = '';
             e.preventDefault();
         }
@@ -75,6 +81,7 @@ export default function Profile() {
                 cgpa: parseFloat(formData.cgpa),
                 graduation_year: parseInt(formData.gradYear),
                 phone: formData.phone,
+                skills,
                 target_roles: formData.targetRole.split(',').map(r => r.trim()).filter(r => r),
                 preferred_locations: formData.preferredLocation.split(',').map(l => l.trim()).filter(l => l),
                 is_remote: formData.isRemote || false,
@@ -158,10 +165,18 @@ export default function Profile() {
                                 <label>Skills</label>
                                 <div className="skills-tags">
                                     {skills.map((s, i) => (
-                                        <div key={i} className="skill-tag">{s} <span className="rm" onClick={() => removeSkill(i)}>✕</span></div>
+                                        <div key={i} className="skill-tag" style={{ background: '#e8d48b', color: '#000', padding: '6px 15px', borderRadius: '50px', display: 'flex', alignItems: 'center', gap: '10px', fontWeight: 'bold' }}>
+                                            {String(s)}
+                                            <span onClick={() => removeSkill(i)} style={{ background: 'rgba(0,0,0,0.1)', width: '18px', height: '18px', borderRadius: '50%', textAlign: 'center', fontSize: '10px', cursor: 'pointer' }}>✕</span>
+                                        </div>
                                     ))}
                                 </div>
-                                <input type="text" placeholder="Type a skill and press Enter" onKeyDown={addSkill} style={{ marginTop: 8 }} />
+                                <input
+                                    type="text"
+                                    className="skill-input"
+                                    placeholder="Type a skill and press Enter"
+                                    onKeyDown={addSkill}
+                                />
                             </div>
                             <div className="form-group"><label>GitHub URL</label><input type="url" placeholder="https://github.com/username" {...register('github')} /></div>
                             <div className="form-group"><label>LinkedIn URL</label><input type="url" placeholder="https://linkedin.com/in/username" {...register('linkedin')} /></div>

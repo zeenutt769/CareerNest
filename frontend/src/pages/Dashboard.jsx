@@ -1,31 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { ovMatches, ovTracker, ovATS, ovDeadlines, jobs } from '../data/jobs';
+import { ovTracker, ovDeadlines } from '../data/jobs';
 import { useToast } from '../components/Toast';
 import JobModal from '../components/JobModal';
 import CountUp from '../components/CountUp';
 
-const chartData = [
-    { name: 'Mon', applications: 2 },
-    { name: 'Tue', applications: 5 },
-    { name: 'Wed', applications: 3 },
-    { name: 'Thu', applications: 8 },
-    { name: 'Fri', applications: 4 },
-    { name: 'Sat', applications: 1 },
-    { name: 'Sun', applications: 6 },
-];
 
 export default function OverviewDashboard() {
+    const { user } = useAuth();
     const navigate = useNavigate();
     const toast = useToast();
     const [selectedJob, setSelectedJob] = useState(null);
+    const [jobsList, setJobsList] = useState([]);
+    const [stats, setStats] = useState({ bookmarks: 0, applied: 0, active: 0, avgATS: 0 });
+    const [atsHistory, setAtsHistory] = useState([]);
+    const [chartData, setChartData] = useState([]);
+    const [isLoadingStats, setIsLoadingStats] = useState(true);
+
+    const backendUrl = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+
+    React.useEffect(() => {
+        const fetchBookmarks = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const res = await fetch(`${backendUrl}/api/bookmarks`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    setJobsList(data);
+                }
+            } catch (err) {
+                console.error('Failed to fetch bookmarked jobs:', err);
+            }
+        };
+
+        const fetchStats = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const res = await fetch(`${backendUrl}/api/dashboard/stats`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    setStats(data.stats);
+                    setAtsHistory(data.atsHistory);
+                    setChartData(data.chartData);
+                }
+            } catch (err) {
+                console.error('Failed to fetch stats:', err);
+            } finally {
+                setIsLoadingStats(false);
+            }
+        };
+
+        fetchBookmarks();
+        fetchStats();
+    }, [backendUrl]);
 
     const openJob = (id) => {
-        const job = jobs.find(j => j.id === id);
+        const job = jobsList.find(j => j.id === id);
         if (job) setSelectedJob(job);
     };
+
+    const dashboardJobs = jobsList.slice(0, 4);
 
 
 
@@ -39,9 +80,9 @@ export default function OverviewDashboard() {
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ type: 'spring', stiffness: 100, damping: 20 }}
                 >
-                    <div className="ov-leftnav-avatar">RS</div>
-                    <div className="ov-leftnav-name">Rahul Sharma</div>
-                    <div className="ov-leftnav-sub">B.Tech CSE • 2025</div>
+                    <div className="ov-leftnav-avatar">{user?.name?.substring(0, 2).toUpperCase() || 'U'}</div>
+                    <div className="ov-leftnav-name">{user?.name || 'User'}</div>
+                    <div className="ov-leftnav-sub">Student • {new Date().getFullYear()}</div>
                     <div className="ov-nav-divider"></div>
                     <div className="ov-nav-label">Main Menu</div>
 
@@ -80,17 +121,17 @@ export default function OverviewDashboard() {
                 {/* CENTER */}
                 <main className="ov-center">
                     <div className="ov-greeting fade-in">
-                        <h1>Good evening, <em>Rahul</em> 👋</h1>
-                        <p>Here's your job search snapshot — 3 new matches since yesterday. Two deadlines expiring soon!</p>
+                        <h1>Good evening, <em>{user?.name?.split(' ')[0] || 'User'}</em> 👋</h1>
+                        <p>Welcome back! You have 0 new matches since yesterday. Complete your profile for more matches.</p>
                     </div>
 
                     {/* STATS */}
                     <div className="ov-stats">
                         {[
-                            { cls: 'c1', delta: '+3 new', deltaCls: 'delta-up', iconBg: 'rgba(78,205,196,0.1)', iconBorder: 'rgba(78,205,196,0.25)', stroke: '#4ecdc4', icon: <><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></>, num: '47', numColor: '#4ecdc4', label: 'Total Matches', sub: 'Based on your skills' },
-                            { cls: 'c2', delta: '+2 today', deltaCls: 'delta-up', iconBg: 'rgba(232,212,139,0.1)', iconBorder: 'rgba(232,212,139,0.25)', stroke: '#e8d48b', icon: <><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14,2 14,8 20,8" /><line x1="16" y1="13" x2="8" y2="13" /></>, num: '12', numColor: 'var(--gold)', label: 'Jobs Applied', sub: 'Last 30 days' },
-                            { cls: 'c3', delta: '2 interviews', deltaCls: 'delta-up', iconBg: 'rgba(162,155,254,0.1)', iconBorder: 'rgba(162,155,254,0.25)', stroke: '#a29bfe', icon: <><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></>, num: '5', numColor: '#a29bfe', label: 'Active Applications', sub: 'Awaiting response' },
-                            { cls: 'c4', delta: '↑ 6pts', deltaCls: 'delta-up', iconBg: 'rgba(255,107,157,0.1)', iconBorder: 'rgba(255,107,157,0.25)', stroke: '#ff6b9d', icon: <><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></>, num: '78', suffix: '%', numColor: '#ff6b9d', label: 'Avg ATS Score', sub: 'Across 3 resumes' },
+                            { cls: 'c1', delta: '0 new', deltaCls: 'delta-neutral', iconBg: 'rgba(78,205,196,0.1)', iconBorder: 'rgba(78,205,196,0.25)', stroke: '#4ecdc4', icon: <><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /></>, num: stats.bookmarks, numColor: '#4ecdc4', label: 'Saved Jobs', sub: 'Your bookmarked jobs' },
+                            { cls: 'c2', delta: '0 today', deltaCls: 'delta-neutral', iconBg: 'rgba(232,212,139,0.1)', iconBorder: 'rgba(232,212,139,0.25)', stroke: '#e8d48b', icon: <><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><polyline points="14,2 14,8 20,8" /><line x1="16" y1="13" x2="8" y2="13" /></>, num: stats.applied, numColor: 'var(--gold)', label: 'Jobs Applied', sub: 'Last 30 days' },
+                            { cls: 'c3', delta: '0 interviews', deltaCls: 'delta-neutral', iconBg: 'rgba(162,155,254,0.1)', iconBorder: 'rgba(162,155,254,0.25)', stroke: '#a29bfe', icon: <><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></>, num: stats.active, numColor: '#a29bfe', label: 'Active Applications', sub: 'Awaiting response' },
+                            { cls: 'c4', delta: '0pts', deltaCls: 'delta-neutral', iconBg: 'rgba(255,107,157,0.1)', iconBorder: 'rgba(255,107,157,0.25)', stroke: '#ff6b9d', icon: <><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></>, num: stats.avgATS, suffix: '%', numColor: '#ff6b9d', label: 'Avg ATS Score', sub: stats.avgATS > 0 ? 'Across your resumes' : 'No resumes yet' },
                         ].map((s, i) => (
                             <motion.div key={i} className={`ov-sc glass-card ${s.cls}`}
                                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
@@ -115,28 +156,72 @@ export default function OverviewDashboard() {
                         <button className="ov-view-all" onClick={() => navigate('/jobs')}>View All Jobs →</button>
                     </div>
                     <div className="ov-match-list">
-                        {ovMatches.map((m, idx) => (
-                            <motion.div key={idx} className="ov-mc glass-card" onClick={() => openJob(m.id)}
-                                initial={{ opacity: 0, x: -20, scale: 0.95 }}
-                                animate={{ opacity: 1, x: 0, scale: 1 }}
-                                transition={{ delay: idx * 0.1, type: 'spring', stiffness: 100, damping: 15 }}
-                                style={{ padding: '16px', borderRadius: '16px', marginBottom: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '16px' }}
-                                whileHover={{ scale: 1.02, x: 5 }}>
-                                <div className="ov-mc-logo" style={{ borderColor: `${m.col}33`, color: m.col }}>{m.initials}</div>
-                                <div className="ov-mc-info">
-                                    <div className="ov-mc-title">{m.title}</div>
-                                    <div className="ov-mc-company">{m.company} &nbsp;•&nbsp; {m.salary}</div>
-                                    <div className="ov-mc-tags">{m.tags.map(t => <span key={t} className="ov-mc-tag">{t}</span>)}</div>
-                                </div>
-                                <div className="ov-mc-right">
-                                    <div>
-                                        <div className="ov-mc-pct" style={{ color: m.col }}>{m.match}%</div>
-                                        <div className="ov-mc-pct-lbl">Match</div>
+                        {dashboardJobs.length > 0 ? dashboardJobs.map((m, idx) => {
+                            const initials = m.initials || m.company?.substring(0, 2).toUpperCase();
+                            const salary = m.salary || (m.salary_min ? `₹${m.salary_min}K+` : 'Competitive');
+                            const matchScore = m.match || 90;
+                            const col = m.col || (idx === 0 ? '#4ecdc4' : idx === 1 ? '#e8d48b' : '#a29bfe');
+                            const tags = m.tags || [m.job_type, m.work_mode].filter(t => t);
+
+                            const handleApply = async (e, job) => {
+                                e.stopPropagation();
+                                try {
+                                    const token = localStorage.getItem('token');
+                                    if (!token) return toast('Please login to apply');
+
+                                    const res = await fetch(`${backendUrl}/api/jobs/apply`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': `Bearer ${token}`
+                                        },
+                                        body: JSON.stringify({ jobId: job.id })
+                                    });
+
+                                    if (res.ok) {
+                                        toast(`Applied to ${job.company}! ✓`);
+                                        // Refresh stats
+                                        const statsRes = await fetch(`${backendUrl}/api/dashboard/stats`, {
+                                            headers: { 'Authorization': `Bearer ${token}` }
+                                        });
+                                        if (statsRes.ok) {
+                                            const statsData = await statsRes.json();
+                                            setStats(statsData.stats);
+                                            setChartData(statsData.chartData);
+                                        }
+                                    }
+                                } catch (err) {
+                                    toast('Failed to record application');
+                                }
+                            };
+
+                            return (
+                                <motion.div key={m.id || idx} className="ov-mc glass-card" onClick={() => openJob(m.id)}
+                                    initial={{ opacity: 0, x: -20, scale: 0.95 }}
+                                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                                    transition={{ delay: idx * 0.1, type: 'spring', stiffness: 100, damping: 15 }}
+                                    style={{ padding: '16px', borderRadius: '16px', marginBottom: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '16px' }}
+                                    whileHover={{ scale: 1.02, x: 5 }}>
+                                    <div className="ov-mc-logo" style={{ borderColor: `${col}33`, color: col }}>{initials}</div>
+                                    <div className="ov-mc-info">
+                                        <div className="ov-mc-title">{m.title}</div>
+                                        <div className="ov-mc-company">{m.company} &nbsp;•&nbsp; {salary}</div>
+                                        <div className="ov-mc-tags">{tags.slice(0, 2).map(t => <span key={t} className="ov-mc-tag">{t}</span>)}</div>
                                     </div>
-                                    <button className="ov-mc-apply" onClick={(e) => { e.stopPropagation(); toast(`Applied to ${m.company}! ✓`); }}>Apply</button>
-                                </div>
-                            </motion.div>
-                        ))}
+                                    <div className="ov-mc-right">
+                                        <div>
+                                            <div className="ov-mc-pct" style={{ color: col }}>{matchScore}%</div>
+                                            <div className="ov-mc-pct-lbl">Match</div>
+                                        </div>
+                                        <button className="ov-mc-apply" onClick={(e) => handleApply(e, m)}>Apply</button>
+                                    </div>
+                                </motion.div>
+                            );
+                        }) : (
+                            <div className="glass-card" style={{ padding: '30px', textAlign: 'center', color: 'rgba(255,255,255,0.5)' }}>
+                                No bookmarked jobs yet. Sync and find your first match!
+                            </div>
+                        )}
                     </div>
                 </main>
 
@@ -153,7 +238,7 @@ export default function OverviewDashboard() {
                             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><polyline points="12,6 12,12 16,14" /></svg>
                             Deadlines & Reminders
                         </div>
-                        {ovDeadlines.map((d, i) => (
+                        {ovDeadlines.length > 0 ? ovDeadlines.map((d, i) => (
                             <div key={i} className={`ov-deadline ${d.type}`}>
                                 <div className="ov-deadline-icon">{d.icon}</div>
                                 <div>
@@ -162,7 +247,9 @@ export default function OverviewDashboard() {
                                     <div className="ov-deadline-time">{d.time}</div>
                                 </div>
                             </div>
-                        ))}
+                        )) : (
+                            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem', padding: '10px 0' }}>No upcoming deadlines.</div>
+                        )}
                     </div>
 
                     {/* Skill Gap */}
@@ -204,7 +291,7 @@ export default function OverviewDashboard() {
                             <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>
                             Resume ATS Scores
                         </div>
-                        {ovATS.map((a, i) => {
+                        {atsHistory.length > 0 ? atsHistory.map((a, i) => {
                             const col = a.score >= 80 ? '#4ecdc4' : a.score >= 65 ? '#e8d48b' : '#f87171';
                             return (
                                 <div key={i} className="ov-ats-item">
@@ -213,7 +300,9 @@ export default function OverviewDashboard() {
                                     <div className="ov-ats-val" style={{ color: col }}>{a.score}%</div>
                                 </div>
                             );
-                        })}
+                        }) : (
+                            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.9rem', padding: '10px 0' }}>No resumes checked.</div>
+                        )}
                         <button className="ov-ats-check-btn" onClick={() => navigate('/ats')}>+ Check New Resume →</button>
                     </div>
 
