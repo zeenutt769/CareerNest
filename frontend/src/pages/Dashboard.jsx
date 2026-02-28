@@ -21,6 +21,7 @@ export default function OverviewDashboard() {
     const [atsHistory, setAtsHistory] = useState([]);
     const [chartData, setChartData] = useState([]);
     const [skillGap, setSkillGap] = useState([]);
+    const [profilePicture, setProfilePicture] = useState(user?.profile_picture || '');
     const [isComplete, setIsComplete] = useState(true);
     const [isLoadingStats, setIsLoadingStats] = useState(true);
 
@@ -56,6 +57,7 @@ export default function OverviewDashboard() {
                     setChartData(data.chartData);
                     setSkillGap(data.skillGap || []);
                     setIsComplete(data.isComplete);
+                    setProfilePicture(data.profile_picture || user?.profile_picture || '');
                 }
             } catch (err) {
                 console.error('Failed to fetch stats:', err);
@@ -67,6 +69,13 @@ export default function OverviewDashboard() {
         fetchBookmarks();
         fetchStats();
     }, [backendUrl]);
+
+    // Keep profile picture sync'd with auth context
+    useEffect(() => {
+        if (user?.profile_picture && !profilePicture) {
+            setProfilePicture(user.profile_picture);
+        }
+    }, [user, profilePicture]);
 
     const openJob = (id) => {
         const job = jobsList.find(j => j.id === id);
@@ -87,7 +96,18 @@ export default function OverviewDashboard() {
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ type: 'spring', stiffness: 100, damping: 20 }}
                 >
-                    <div className="ov-leftnav-avatar">{user?.name?.substring(0, 2).toUpperCase() || 'U'}</div>
+                    <div className="ov-leftnav-avatar">
+                        {profilePicture ? (
+                            <img
+                                src={profilePicture}
+                                alt={user?.name}
+                                referrerPolicy="no-referrer"
+                                style={{ width: '100%', height: '100%', borderRadius: 'inherit', objectFit: 'cover' }}
+                            />
+                        ) : (
+                            user?.name?.substring(0, 2).toUpperCase() || 'U'
+                        )}
+                    </div>
                     <div className="ov-leftnav-name">{user?.name || 'User'}</div>
                     <div className="ov-leftnav-sub">Student • {new Date().getFullYear()}</div>
                     <div className="ov-nav-divider"></div>
