@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import JobModal from '../components/JobModal';
 import { useToast } from '../components/Toast';
+import API_BASE_URL from '../api';
+
 
 export default function FindJob() {
     const navigate = useNavigate();
@@ -22,7 +24,8 @@ export default function FindJob() {
     const [locationQuery, setLocationQuery] = useState('');
     const [isYearly, setIsYearly] = useState(false);
 
-    const backendUrl = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+    const backendUrl = API_BASE_URL;
+
 
     React.useEffect(() => {
         const fetchInitialData = async () => {

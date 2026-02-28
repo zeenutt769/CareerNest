@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useToast } from '../components/Toast';
 import { useAuth } from '../context/AuthContext';
+import API_BASE_URL from '../api';
+
 
 export default function Login() {
     const [isLogin, setIsLogin] = useState(true);
@@ -21,7 +23,8 @@ export default function Login() {
 
         const endpoint = isLogin ? '/api/auth/login' : '/api/auth/signup';
         const payload = isLogin ? { email, password } : { name, email, password };
-        const backendUrl = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+        const backendUrl = API_BASE_URL;
+
 
         try {
             const response = await fetch(`${backendUrl}${endpoint}`, {
@@ -48,8 +51,9 @@ export default function Login() {
     };
 
     const handleGoogleOAuth = () => {
-        const backendUrl = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+        const backendUrl = API_BASE_URL;
         toast('Redirecting to Google...');
+
         window.location.href = `${backendUrl}/api/auth/google`;
     };
 

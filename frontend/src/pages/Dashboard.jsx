@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import API_BASE_URL from '../api';
+
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -20,7 +22,8 @@ export default function OverviewDashboard() {
     const [chartData, setChartData] = useState([]);
     const [isLoadingStats, setIsLoadingStats] = useState(true);
 
-    const backendUrl = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+    const backendUrl = API_BASE_URL;
+
 
     React.useEffect(() => {
         const fetchBookmarks = async () => {

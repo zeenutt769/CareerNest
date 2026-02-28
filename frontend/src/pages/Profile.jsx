@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { useToast } from '../components/Toast';
 import { useAuth } from '../context/AuthContext';
+import API_BASE_URL from '../api';
+
 
 export default function Profile() {
     const toast = useToast();
@@ -13,7 +15,8 @@ export default function Profile() {
     const [skills, setSkills] = useState([]);
     console.log('Current skills in state:', skills);
 
-    const backendUrl = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+    const backendUrl = API_BASE_URL;
+
 
     const getInitials = (userName) => {
         if (!userName) return 'U';
