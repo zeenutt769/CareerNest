@@ -2,157 +2,235 @@
 
 # 🪺 CareerNest
 
-### 🚀 Smart Job Matching Platform for Students & Freshers
+### *Smart Job Matching for Students & Freshers*
 
-<p align="center">
-Find your first job faster with AI-powered tools, curated job listings, and ATS resume insights.
-</p>
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-ff69b4?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-<br>
+<br/>
 
-<img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge">
-<img src="https://img.shields.io/github/stars/your-username/CareerNest?style=for-the-badge">
-<img src="https://img.shields.io/github/forks/your-username/CareerNest?style=for-the-badge">
-<img src="https://img.shields.io/github/license/your-username/CareerNest?style=for-the-badge">
+> **CareerNest** is a modern, full-featured job board platform designed specifically for students and freshers. It aggregates job opportunities, offers an AI-powered ATS resume checker, and helps candidates land their first role — all in one sleek dark-mode interface.
 
-<br>
+<br/>
 
-<img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react">
-<img src="https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite">
-<img src="https://img.shields.io/badge/TailwindCSS-4-38B2AC?style=for-the-badge&logo=tailwind-css">
-<img src="https://img.shields.io/badge/FramerMotion-12-ff69b4?style=for-the-badge&logo=framer">
-
-<br><br>
-
-> **CareerNest** is a modern AI-powered job platform built for **students and freshers** to discover opportunities, analyze resumes with ATS scoring, and track their job applications — all in one elegant interface.
-
-<br>
-
-### 🌐 Live Demo
-🚧 Coming Soon
+![CareerNest Banner](https://img.shields.io/badge/🚀_Live_Demo-Coming_Soon-blueviolet?style=for-the-badge)
 
 </div>
 
 ---
 
-# ✨ Key Features
+## ✨ Features
 
-### 🎯 Smart Job Matching
-Filter jobs based on:
-
-- Tech stack
-- Location
-- Salary
-- Experience level
-
-Helping students find **relevant entry-level roles faster.**
-
----
-
-### 📄 ATS Resume Checker
-
-Upload your resume and paste a job description.
-
-CareerNest will:
-
-- Analyze ATS compatibility
-- Show **ATS score (0–100)**
-- Highlight **matched keywords**
-- Show **missing keywords**
-- Provide improvement suggestions
+| Feature | Description |
+|---|---|
+| 🎯 **Smart Job Matching** | Browse curated job listings filtered by tech stack, salary, location & experience |
+| 📄 **ATS Resume Checker** | Upload your PDF resume + paste a JD to get an instant ATS score with matched/missing keywords |
+| 📊 **Personal Dashboard** | Track applications, deadlines, skill gaps, ATS scores & quick actions in one place |
+| 👥 **Community** | Connect, share, and discuss with peers and professionals |
+| 🏢 **Hiring Resources** | Access guides, tips, and resources for hiring managers and recruiters |
+| 🙋 **FAQ** | Answers to common questions about the platform |
+| 🔐 **Auth System** | JWT-based login with protected routes; guest-friendly public pages |
+| ✨ **Smooth Animations** | Page transitions, scroll animations, and micro-interactions via Framer Motion |
+| 🌌 **Particle Background** | Dynamic animated background for a premium look and feel |
+| 📱 **Fully Responsive** | Optimized for all screen sizes, from mobile to desktop |
 
 ---
 
-### 📊 Personal Dashboard
+## 🛠️ Tech Stack
 
-Track your entire job search in one place.
+### Frontend
+- **[React 19](https://reactjs.org/)** — UI library
+- **[Vite 7](https://vitejs.dev/)** — Lightning-fast build tool & dev server
+- **[React Router DOM v7](https://reactrouter.com/)** — Client-side routing
+- **[Framer Motion](https://www.framer.com/motion/)** — Animations & page transitions
+- **[Zustand](https://zustand-demo.pmnd.rs/)** — Lightweight state management
+- **[React Hook Form](https://react-hook-form.com/)** — Performant form handling
+- **[Recharts](https://recharts.org/)** — Data visualization & charts
+- **[Lucide React](https://lucide.dev/)** — Beautiful icon library
+- **[Axios](https://axios-http.com/)** — HTTP client
+- **[TailwindCSS v4](https://tailwindcss.com/)** — Utility-first CSS (via Vite plugin)
+- **CSS Custom Properties** — Glassmorphism design system, custom tokens
 
-Features include:
-
-- Application tracker
-- Deadlines & reminders
-- Best job matches
-- Skill gap analysis
-- Quick apply actions
-
----
-
-### 👥 Community
-
-Students can:
-
-- Discuss job prep
-- Share experiences
-- Ask career questions
-- Connect with peers
+### Backend *(Expected)*
+- **Node.js + Express** — REST API server
+- **JWT** — Authentication tokens
+- **ATS Analysis Engine** — Resume keyword matching against job descriptions
 
 ---
 
-### 🔐 Secure Authentication
+## 📁 Project Structure
 
-- JWT based authentication
-- Protected routes
-- Guest friendly public pages
-
----
-
-### ✨ Smooth UI Experience
-
-CareerNest focuses on **premium UI feel**:
-
-- Page transitions
-- Micro interactions
-- Scroll animations
-- Glassmorphism design
-- Animated particle background
-
----
-
-# 🖼 Screenshots
-
-### Landing Page
-
-![Landing](https://via.placeholder.com/1200x600)
-
----
-
-### Dashboard
-
-![Dashboard](https://via.placeholder.com/1200x600)
-
----
-
-### ATS Resume Checker
-
-![ATS](https://via.placeholder.com/1200x600)
-
----
-
-# 🛠 Tech Stack
-
-## Frontend
-
-| Technology | Purpose |
-|------------|--------|
-| React 19 | UI Library |
-| Vite 7 | Lightning fast dev server |
-| React Router | Client side routing |
-| TailwindCSS | Styling system |
-| Framer Motion | Animations |
-| Zustand | State management |
-| React Hook Form | Form handling |
-| Recharts | Data visualization |
-| Axios | API communication |
+```
+CareerNest/
+│
+├── frontend/                   # React frontend application
+│   ├── public/
+│   ├── src/
+│   │   ├── components/         # Reusable UI components
+│   │   │   ├── CountUp.jsx         # Animated number counter
+│   │   │   ├── JobModal.jsx         # Job detail modal
+│   │   │   ├── NavBar.jsx           # Navigation bar
+│   │   │   ├── PageTransition.jsx   # Animated route transitions
+│   │   │   ├── ParticleBackground.jsx # Dynamic particle canvas
+│   │   │   ├── ProtectedRoute.jsx   # Auth guard component
+│   │   │   └── Toast.jsx            # Toast notification system
+│   │   │
+│   │   ├── context/
+│   │   │   └── AuthContext.jsx      # Auth state & JWT logic
+│   │   │
+│   │   ├── data/                    # Static/mock data files
+│   │   │
+│   │   ├── pages/              # Full-page route components
+│   │   │   ├── Landing.jsx          # Home / hero page
+│   │   │   ├── Login.jsx            # Login / signup page
+│   │   │   ├── LoginSuccess.jsx     # Post-login redirect
+│   │   │   ├── Dashboard.jsx        # User dashboard (protected)
+│   │   │   ├── FindJob.jsx          # Job listing & search (protected)
+│   │   │   ├── ATSCheck.jsx         # ATS resume checker (protected)
+│   │   │   ├── Profile.jsx          # User profile page (protected)
+│   │   │   ├── Community.jsx        # Community forum (protected)
+│   │   │   ├── Hiring.jsx           # Hiring resources (protected)
+│   │   │   └── FAQ.jsx              # FAQ page (public)
+│   │   │
+│   │   ├── store/                   # Zustand stores
+│   │   ├── App.jsx                  # Root component, routing setup
+│   │   ├── index.css                # Global styles & design system
+│   │   ├── responsive.css           # Mobile responsive overrides
+│   │   └── main.jsx                 # Vite entry point
+│   │
+│   ├── index.html
+│   ├── vite.config.js
+│   └── package.json
+│
+└── README.md
+```
 
 ---
 
-## Backend (Planned)
+## 🚀 Getting Started
 
-- **Node.js**
-- **Express**
-- **JWT Authentication**
-- **ATS Keyword Matching Engine**
+### Prerequisites
+
+Make sure you have the following installed:
+- **[Node.js](https://nodejs.org/)** v18 or higher
+- **npm** v9 or higher
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/CareerNest.git
+cd CareerNest
+```
+
+### 2. Install Frontend Dependencies
+
+```bash
+cd frontend
+npm install
+```
+
+### 3. Configure Environment Variables
+
+Create a `.env` file inside the `frontend/` directory:
+
+```env
+VITE_API_BASE=http://localhost:5000
+```
+
+> Replace `http://localhost:5000` with your backend API URL if different.
+
+### 4. Run the Development Server
+
+```bash
+npm run dev
+```
+
+The app will be available at **[http://localhost:5173](http://localhost:5173)**
+
+### 5. Build for Production
+
+```bash
+npm run build
+```
 
 ---
 
-# 📁 Project Structure
+## 📸 Pages Overview
+
+### 🏠 Landing Page
+Hero section with email CTA, feature cards (Smart Matching, ATS Checker, Daily Digest), how-it-works steps, and a call-to-action band.
+
+### 🔐 Login Page
+Clean, minimal login/signup form with JWT-based authentication. Redirects to Dashboard on success.
+
+### 📊 Dashboard *(Protected)*
+Overview of application stats, best job matches, application tracker, deadlines & reminders, skill gap analysis, and quick action buttons.
+
+### 🔍 Find Jobs *(Protected)*
+Browse and search through curated job listings with filters for role, location, and tech stack. View full job details in a modal.
+
+### 📄 ATS Resume Checker *(Protected)*
+- Upload resume (PDF, max 5MB)
+- Paste any job description
+- Instantly get an ATS match score (0–100)
+- See matched ✅ and missing ❌ keywords
+- Receive actionable improvement tips
+
+### 👤 Profile *(Protected)*
+Manage your academic details, skills, and career preferences.
+
+### 👥 Community *(Protected)*
+Forum-style discussion boards to connect with peers and professionals.
+
+### 🏢 Hiring Resources *(Protected)*
+Guides and tools for understanding the hiring process.
+
+### ❓ FAQ *(Public)*
+Frequently asked questions about CareerNest.
+
+---
+
+## 🔌 API Integration
+
+The frontend communicates with a backend REST API. Key endpoints:
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/auth/login` | User login, returns JWT |
+| `POST` | `/api/ats/analyze` | Analyze resume against job description |
+| `GET` | `/api/jobs` | Fetch job listings |
+
+> Set your backend base URL in the `VITE_API_BASE` environment variable.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how:
+
+1. **Fork** the repository
+2. **Create** a new branch: `git checkout -b feature/your-feature-name`
+3. **Commit** your changes: `git commit -m 'Add: your feature description'`
+4. **Push** to the branch: `git push origin feature/your-feature-name`
+5. **Open** a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👨‍💻 Author
+
+Made with ❤️ for students and freshers trying to land their first role.
+
+<div align="center">
+
+⭐ **If you found this project helpful, please give it a star!** ⭐
+
+</div>
