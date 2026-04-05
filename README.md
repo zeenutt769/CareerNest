@@ -132,7 +132,7 @@ cd frontend
 npm install
 ```
 
-### 3. Configure Environment Variables
+### 3. Configure Environment Variable
 
 Create a `.env` file inside the `frontend/` directory:
 
